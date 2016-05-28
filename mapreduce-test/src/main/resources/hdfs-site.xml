@@ -23,7 +23,7 @@
 
 	<property>
 		<name>dfs.namenode.secondary.http-address</name>
-		<value>hadoop-senior.ibeifeng.com:50090</value>
+		<value>localhost.hadoop1:50090</value>
 	</property>
 	
 </configuration>
