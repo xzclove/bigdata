@@ -1,4 +1,4 @@
-package com.ibeifeng.hdfs.test.hdfs;
+package com.ibeifeng.hdfs.test;
 
 import java.io.File;
 import java.io.FileInputStream;
