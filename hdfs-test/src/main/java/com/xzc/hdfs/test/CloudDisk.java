@@ -31,14 +31,14 @@ public class CloudDisk {
 	}
 
 	public static void test() {
-		System.out.println("请输入你想进行的操作：\n\t");
-		System.out.println("1、ls --查看目录下的文件和子目录\t");
-		System.out.println("2、cat --查看文件内容\t");
-		System.out.println("3、mkdir --创建目录\t");
-		System.out.println("4、rm --删除文件或者空目录\t");
-		System.out.println("5、rmr --删除文件或者目录\t");
-		System.out.println("6、put --上传文件到HDFS\t");
-		System.out.println("7、get --将HDFS上的文件下载到本地\n");
+		System.out.println("请输入你想进行的操作：");
+		System.out.println("\t1、ls --查看目录下的文件和子目录\t");
+		System.out.println("\t2、cat --查看文件内容\t");
+		System.out.println("\t3、mkdir --创建目录\t");
+		System.out.println("\t4、rm --删除文件或者空目录\t");
+		System.out.println("\t5、rmr --删除文件或者目录\t");
+		System.out.println("\t6、put --上传文件到HDFS\t");
+		System.out.println("\t7、get --将HDFS上的文件下载到本地\n");
 
 		Scanner scanner = new Scanner(System.in);
 		CloudDisk cd = new CloudDisk();
@@ -68,8 +68,7 @@ public class CloudDisk {
 			cd.rm(file, true);
 			test();
 		} else if (Integer.valueOf(operation) == 6) {
-			String file = scanner.nextLine();
-			cd.put("/home/hadoop/wc2.input", "/user/hadoop/mapreduce/input/wc2.input");
+			cd.put("/home/hadoop/wc.input", "/user/hadoop/mapreduce/input/wc2.input");
 			test();
 		} else if (Integer.valueOf(operation) == 7) {
 			cd.get("/home/hadoop/wc3.input", "/user/hadoop/mapreduce/input/wc2.input");
@@ -83,16 +82,30 @@ public class CloudDisk {
 	}
 
 	/**
-	 * ls
+	 * 获取FileSystem实例
+	 * 
+	 * @return
 	 */
-	public void listFiles(String specialPath) {
+	private FileSystem getFS() {
 		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", hostName);
 		System.setProperty("HADOOP_USER_NAME", userName);
 		FileSystem fileSystem = null;
 		try {
 			fileSystem = FileSystem.get(conf);
+			return fileSystem;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
+	/**
+	 * 查看文件
+	 */
+	public void listFiles(String specialPath) {
+		FileSystem fileSystem = this.getFS();
+		try {
 			FileStatus[] fstats = fileSystem.listStatus(new Path(specialPath));
 
 			for (FileStatus fstat : fstats) {
@@ -129,12 +142,8 @@ public class CloudDisk {
 	 * @param hdfsFilePath
 	 */
 	public void cat(String hdfsFilePath) {
-		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
-		FileSystem fileSystem = null;
+		FileSystem fileSystem = this.getFS();
 		try {
-			fileSystem = FileSystem.get(conf);
 
 			FSDataInputStream fdis = fileSystem.open(new Path(hdfsFilePath));
 
@@ -229,36 +238,12 @@ public class CloudDisk {
 			FileOutputStream fos = new FileOutputStream(new File(localFilePath));
 			IOUtils.copyBytes(fsis, fos, 1024);
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			IOUtils.closeStream(fileSystem);
 		}
-	}
-
-	/**
-	 * 获取FileSystem实例
-	 * 
-	 * @return
-	 */
-	private FileSystem getFS() {
-
-		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
-		FileSystem fileSystem = null;
-		try {
-			fileSystem = FileSystem.get(conf);
-
-			return fileSystem;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 
 	/**
