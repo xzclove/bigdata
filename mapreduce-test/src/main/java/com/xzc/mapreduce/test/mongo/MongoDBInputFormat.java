@@ -1,4 +1,5 @@
-package com.xzc.mapreduce.test.mongo; 
+package com.xzc.mapreduce.test.mongo;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -21,10 +22,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
-/** 
- * @Des  自定义MongoDB Inputformat
- * @Author feelingxu@tcl.com: 
- * @Date 创建时间：2016年6月3日 下午3:40:24 
+
+/**
+ * @Des 自定义MongoDB Inputformat
+ * @Author feelingxu@tcl.com:
+ * @Date 创建时间：2016年6月3日 下午3:40:24
  * @Version V1.0.0
  */
 public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<LongWritable, V> {
@@ -33,9 +35,8 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 	 * MongoDB自定义InputSplit
 	 * 
 	 * @author gerry
-	 *
 	 */
-	static class MongoDBInputSplit extends InputSplit implements Writable{
+	static class MongoDBInputSplit extends InputSplit implements Writable {
 		// [start,end)
 		private long start; // 起始位置，包含
 		private long end; // 终止位置，不包含
@@ -81,28 +82,34 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 	public List<InputSplit> getSplits(JobContext context) throws IOException, InterruptedException {
 		// 获取mongo连接
 		DB mongo = Mongo.connect(new DBAddress("127.0.0.1", "hadoop"));
+		// 设置用户名密码
+		// mongo.authenticateCommand(username, password);
 		// 获取mongo集合
 		DBCollection dbCollection = mongo.getCollection("persons");
-		// 没两条数据一个mapper
+
+		// 每两条数据一个mapper，块大小
 		int chunkSize = 2;
-		long size = dbCollection.count(); // 获取mongodb对于collection的数据条数
-		long chunk = size / chunkSize; // 计算mapper个数
+		long size = dbCollection.count(); // 获取mongodb对于collection的数据条数，假如 7条数据
+		long chunk = size / chunkSize; // 计算mapper个数 3
 
 		List<InputSplit> list = new ArrayList<InputSplit>();
 		for (int i = 0; i < chunk; i++) {
+			// 0 1 2
 			if (i + 1 == chunk) {
-				list.add(new MongoDBInputSplit(i * chunkSize, size));
+				list.add(new MongoDBInputSplit(i * chunkSize, size)); // i = 2
+																		// [4,7)
 			} else {
-				list.add(new MongoDBInputSplit(i * chunkSize, i * chunkSize + chunkSize));
+				list.add(new MongoDBInputSplit(i * chunkSize, i * chunkSize + chunkSize)); // [0,2)
+																							// [2,4)
 			}
 		}
-
 		return list;
 	}
 
 	/**
 	 * 获取具体的reader类
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public RecordReader<LongWritable, V> createRecordReader(InputSplit split, TaskAttemptContext context)
 			throws IOException, InterruptedException {
@@ -135,12 +142,14 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 	}
 
 	/**
-	 * 自定义mongo对吧reader类
+	 * 自定义mongo reader类
+	 * 
 	 * @author gerry
 	 *
 	 * @param <V>
 	 */
 	static class MongoDBRecordReader<V extends MongoDBWritable> extends RecordReader<LongWritable, V> {
+
 		private MongoDBInputSplit split;
 		private int index;
 		private DBCursor dbCursor;
@@ -151,11 +160,13 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 			super();
 		}
 
-		public MongoDBRecordReader(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
+		public MongoDBRecordReader(InputSplit split, TaskAttemptContext context) throws IOException,
+				InterruptedException {
 			super();
 			this.initialize(split, context);
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
 		public void initialize(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
 			this.split = (MongoDBInputSplit) split;
@@ -204,9 +215,7 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 		public void close() throws IOException {
 			this.dbCursor.close();
 		}
-		
+
 	}
 
 }
-
- 

@@ -1,4 +1,5 @@
-package com.xzc.mapreduce.test.mongo; 
+package com.xzc.mapreduce.test.mongo;
+
 import java.io.IOException;
 
 import org.apache.hadoop.io.NullWritable;
@@ -13,26 +14,21 @@ import com.mongodb.DB;
 import com.mongodb.DBAddress;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
-/** 
- * @Des  自定义outputformat
- * @Author feelingxu@tcl.com: 
- * @Date 创建时间：2016年6月3日 下午3:41:15 
+
+/**
+ * @Des 自定义outputformat
+ * @Author feelingxu@tcl.com:
+ * @Date 创建时间：2016年6月3日 下午3:41:15
  * @Version V1.0.0
  */
 public class MongoDBOutputFormat<V extends MongoDBWritable> extends OutputFormat<NullWritable, V> {
 
-	/**
-	 * 自定义mongodb outputformat
-	 * @author gerry
-	 *
-	 * @param <V>
-	 */
 	static class MongoDBRecordWriter<V extends MongoDBWritable> extends RecordWriter<NullWritable, V> {
 		private DBCollection dbCollection = null;
 
 		public MongoDBRecordWriter() {
 		}
-		
+
 		public MongoDBRecordWriter(TaskAttemptContext context) throws IOException {
 			DB db = Mongo.connect(new DBAddress("127.0.0.1", "hadoop"));
 			dbCollection = db.getCollection("result");
@@ -50,8 +46,8 @@ public class MongoDBOutputFormat<V extends MongoDBWritable> extends OutputFormat
 	}
 
 	@Override
-	public RecordWriter<NullWritable, V> getRecordWriter(TaskAttemptContext context)
-			throws IOException, InterruptedException {
+	public RecordWriter<NullWritable, V> getRecordWriter(TaskAttemptContext context) throws IOException,
+			InterruptedException {
 		return new MongoDBRecordWriter<>(context);
 	}
 

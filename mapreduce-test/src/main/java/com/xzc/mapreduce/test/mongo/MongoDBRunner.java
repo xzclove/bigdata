@@ -1,4 +1,5 @@
-package com.xzc.mapreduce.test.mongo; 
+package com.xzc.mapreduce.test.mongo;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -15,17 +16,16 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-/** 
- * @Des  操作mongodb的主类
- * @Author feelingxu@tcl.com: 
- * @Date 创建时间：2016年6月3日 下午3:41:44 
+/**
+ * @Des 操作mongodb的主类
+ * @Author feelingxu@tcl.com:
+ * @Date 创建时间：2016年6月3日 下午3:41:44
  * @Version V1.0.0
  */
 public class MongoDBRunner {
+
 	/**
 	 * mongo数据转换到hadoop的一个bean
-	 * @author gerry
-	 *
 	 */
 	static class PersonMongoDBWritable implements MongoDBWritable {
 		private String name;
@@ -75,7 +75,7 @@ public class MongoDBRunner {
 			DBObject dbObject = BasicDBObjectBuilder.start().add("age", this.age).add("count", this.count).get();
 			dbCollection.insert(dbObject);
 		}
-		
+
 	}
 
 	/**
@@ -85,10 +85,11 @@ public class MongoDBRunner {
 	 *
 	 */
 	static class MongoDBMapper extends Mapper<LongWritable, PersonMongoDBWritable, IntWritable, PersonMongoDBWritable> {
+
 		@Override
 		protected void map(LongWritable key, PersonMongoDBWritable value,
 				Mapper<LongWritable, PersonMongoDBWritable, IntWritable, PersonMongoDBWritable>.Context context)
-						throws IOException, InterruptedException {
+				throws IOException, InterruptedException {
 			if (value.age == null) {
 				System.out.println("过滤数据" + value.name);
 				return;
@@ -99,14 +100,16 @@ public class MongoDBRunner {
 
 	/**
 	 * 自定义reducer
+	 * 
 	 * @author gerry
 	 *
 	 */
-	static class MongoDBReducer extends Reducer<IntWritable, PersonMongoDBWritable, NullWritable, PersonMongoDBWritable> {
+	static class MongoDBReducer extends
+			Reducer<IntWritable, PersonMongoDBWritable, NullWritable, PersonMongoDBWritable> {
 		@Override
 		protected void reduce(IntWritable key, Iterable<PersonMongoDBWritable> values,
 				Reducer<IntWritable, PersonMongoDBWritable, NullWritable, PersonMongoDBWritable>.Context context)
-						throws IOException, InterruptedException {
+				throws IOException, InterruptedException {
 			int sum = 0;
 			for (PersonMongoDBWritable value : values) {
 				sum += value.count;
@@ -126,12 +129,16 @@ public class MongoDBRunner {
 		job.setJarByClass(MongoDBRunner.class);
 		job.setMapperClass(MongoDBMapper.class);
 		job.setReducerClass(MongoDBReducer.class);
+		
 		job.setMapOutputKeyClass(IntWritable.class); // mapper输出key
 		job.setMapOutputValueClass(PersonMongoDBWritable.class); // mapper输出value
+		
 		job.setOutputKeyClass(NullWritable.class); // reducer输出key
 		job.setOutputValueClass(PersonMongoDBWritable.class); // reducer 输出value
+		
 		job.setInputFormatClass(MongoDBInputFormat.class); // 设置intputformat
 		job.setOutputFormatClass(MongoDBOutputFormat.class); // 设置otputformat
+		
 		job.waitForCompletion(true);
 	}
 }
