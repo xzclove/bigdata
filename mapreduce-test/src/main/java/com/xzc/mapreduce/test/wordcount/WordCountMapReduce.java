@@ -17,6 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import com.xzc.mapreduce.test.util.DateUtil;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
@@ -139,7 +140,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 		// int status = new WordCountMapReduce().run(args);
 
-		String[] argsPath = { "/user/hadoop/mapreduce/input/wc.input", "/user/hadoop/mapreduce/output5" };
+		String[] argsPath = { "/user/hadoop/mapreduce/input/wc.input", "/user/hadoop/mapreduce/output/"+DateUtil.currentDateHMS() };
 		int status = ToolRunner.run(configuration, new WordCountMapReduce(), argsPath);
 
 		System.exit(status);

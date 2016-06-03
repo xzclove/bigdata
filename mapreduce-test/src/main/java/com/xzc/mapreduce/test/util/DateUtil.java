@@ -30,7 +30,7 @@ public class DateUtil {
 	 */
 	public static String currentDateHMS() {
 		Date currentTime = new Date();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy:MM:dd-HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmm");
 		String dateString = formatter.format(currentTime);
 		return dateString;
 	}

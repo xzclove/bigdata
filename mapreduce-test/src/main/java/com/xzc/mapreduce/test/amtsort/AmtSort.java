@@ -19,6 +19,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.xzc.mapreduce.test.util.DateUtil;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
  * @desc   帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
@@ -48,8 +49,7 @@ public class AmtSort {
 
 		FileInputFormat.addInputPath(job, new Path("/user/hadoop/mapreduce/sort/input/"));
 
-		HdfsUtil.deleteFile("/user/hadoop/mapreduce/sort/output4/");
-		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/sort/output4/"));
+		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/sort/output/"+DateUtil.currentDateHMS()));
 
 		boolean success = job.waitForCompletion(true);
 		if (success) {

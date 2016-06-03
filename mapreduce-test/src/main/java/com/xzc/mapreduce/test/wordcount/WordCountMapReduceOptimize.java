@@ -13,6 +13,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.xzc.mapreduce.test.util.DateUtil;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
@@ -43,8 +44,7 @@ public class WordCountMapReduceOptimize {
 
 		FileInputFormat.addInputPath(job, new Path("/user/hadoop/mapreduce/input/wc.input"));
 
-		HdfsUtil.deleteFile("/user/hadoop/mapreduce/output8");
-		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/output8"));
+		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/output/"+DateUtil.currentDateHMS()));
 
 		boolean success = job.waitForCompletion(true);
 		if (success) {

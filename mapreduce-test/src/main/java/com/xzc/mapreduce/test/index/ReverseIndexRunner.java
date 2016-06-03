@@ -30,7 +30,7 @@ public class ReverseIndexRunner {
 		job.setReducerClass(ReverseIndexReducer.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
-		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/index" + DateUtil.currentDateHMS()));
+		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/index/" + DateUtil.currentDateHMS()));
 		job.waitForCompletion(true);
 	}
 }
