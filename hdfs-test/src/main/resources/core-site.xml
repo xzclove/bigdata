@@ -18,7 +18,7 @@
 
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://localhost.hadoop1:8020</value>
+        <value>hdfs://localhost.hadoop1:9000</value>
     </property>
 
 	<property>

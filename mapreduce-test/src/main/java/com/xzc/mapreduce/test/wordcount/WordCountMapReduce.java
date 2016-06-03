@@ -17,7 +17,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import com.xzc.mapreduce.test.common.HadoopConfig;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
@@ -120,7 +119,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 		// 4.4: output
 		Path outPath = new Path(args[1]);
-		HdfsUtil.deleteFile(conf,args[1]);
+		HdfsUtil.deleteFile(args[1]);
 		FileOutputFormat.setOutputPath(job, outPath);
 
 		return job.waitForCompletion(true) ? 0 : 1;
@@ -129,13 +128,10 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 	// step 4: 运行任务
 	public static void main(String[] args) throws Exception {
-		
-		// 1: 得到配置
-		Configuration configuration = new Configuration();
 
-		configuration.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
-		System.setProperty("HADOOP_USER_NAME",HadoopConfig.USERNAME.getContext());
-		
+		// 1: 得到配置
+		Configuration configuration = HdfsUtil.getConf();
+
 		// set compress
 		// configuration.set("mapreduce.map.output.compress", "true");
 		// configuration.set("mapreduce.map.output.compress.codec",
@@ -144,9 +140,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 		// int status = new WordCountMapReduce().run(args);
 
 		String[] argsPath = { "/user/hadoop/mapreduce/input/wc.input", "/user/hadoop/mapreduce/output5" };
-		int status = ToolRunner.run(configuration,//
-				new WordCountMapReduce(),//
-				argsPath);
+		int status = ToolRunner.run(configuration, new WordCountMapReduce(), argsPath);
 
 		System.exit(status);
 	}

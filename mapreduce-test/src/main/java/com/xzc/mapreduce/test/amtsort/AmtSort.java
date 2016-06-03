@@ -19,7 +19,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import com.xzc.mapreduce.test.common.HadoopConfig;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
  * @desc   帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
@@ -31,9 +30,7 @@ public class AmtSort {
 
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
-		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
+		Configuration conf = HdfsUtil.getConf();
 		Job job = Job.getInstance(conf);
 
 		job.setJobName("amtsort");
@@ -51,7 +48,7 @@ public class AmtSort {
 
 		FileInputFormat.addInputPath(job, new Path("/user/hadoop/mapreduce/sort/input/"));
 
-		HdfsUtil.deleteFile(conf,"/user/hadoop/mapreduce/sort/output4/");
+		HdfsUtil.deleteFile("/user/hadoop/mapreduce/sort/output4/");
 		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/sort/output4/"));
 
 		boolean success = job.waitForCompletion(true);

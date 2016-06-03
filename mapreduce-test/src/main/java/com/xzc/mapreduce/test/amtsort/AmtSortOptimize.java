@@ -22,7 +22,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import com.xzc.mapreduce.test.common.HadoopConfig;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
  * @desc  帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
@@ -190,10 +189,7 @@ public class AmtSortOptimize extends Configured implements Tool {
 	@Override
 	public int run(String[] args) throws Exception {
 
-		Configuration conf = this.getConf();
-		conf.set("fs.defaultFS",HadoopConfig.HOSTNAME.getContext());
-		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
-		
+		Configuration conf = HdfsUtil.getConf();
 		Job job = Job.getInstance(conf);
 
 		job.setJobName(args[0]);
@@ -212,7 +208,7 @@ public class AmtSortOptimize extends Configured implements Tool {
 
 		Path outdir = new Path(args[2]);
 
-		HdfsUtil.deleteFile(conf,args[2]);
+		HdfsUtil.deleteFile(args[2]);
 		FileOutputFormat.setOutputPath(job, outdir);
 
 		boolean success = job.waitForCompletion(true);
