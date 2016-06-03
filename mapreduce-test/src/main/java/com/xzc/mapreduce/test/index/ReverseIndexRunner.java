@@ -9,6 +9,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.xzc.mapreduce.test.util.DateUtil;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
@@ -19,7 +20,7 @@ import com.xzc.mapreduce.test.util.HdfsUtil;
 public class ReverseIndexRunner {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		
+
 		Configuration conf = HdfsUtil.getConf();
 		Job job = Job.getInstance(conf, "reverse_index");
 
@@ -29,7 +30,7 @@ public class ReverseIndexRunner {
 		job.setReducerClass(ReverseIndexReducer.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
-		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/index" + System.currentTimeMillis()));
+		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/index" + DateUtil.currentDateHMS()));
 		job.waitForCompletion(true);
 	}
 }
