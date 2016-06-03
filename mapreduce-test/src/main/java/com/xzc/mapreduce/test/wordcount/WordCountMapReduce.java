@@ -17,6 +17,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
+import com.xzc.mapreduce.test.common.HadoopConfig;
+
 /**
  * @desc 统计单词出现次数 原始方法
  * @author 925654140@qq.com
@@ -25,9 +27,6 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class WordCountMapReduce extends Configured implements Tool {
 
-	private final static String hostName = "hdfs://localhost.hadoop1:9000/";
-	private final static String userName = "hadoop";
-	
 	/**
 	 * step 1: 建立 Map 处理类
 	 */
@@ -132,8 +131,8 @@ public class WordCountMapReduce extends Configured implements Tool {
 		// 1: 得到配置
 		Configuration configuration = new Configuration();
 
-		configuration.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
+		configuration.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
+		System.setProperty("HADOOP_USER_NAME",HadoopConfig.USERNAME.getContext());
 		
 		// set compress
 		// configuration.set("mapreduce.map.output.compress", "true");

@@ -14,6 +14,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
+import com.xzc.hdfs.test.common.HadoopConfig;
+
 /**
  * @desc HDFS API 基本测试类
  * @author 925654140@qq.com
@@ -22,9 +24,6 @@ import org.apache.hadoop.io.IOUtils;
  */
 public class CloudDisk {
 
-	private final static String hostName = "hdfs://localhost.hadoop1:9000/";
-
-	private final static String userName = "hadoop";
 
 	public static void main(String[] args) {
 		test();
@@ -88,8 +87,8 @@ public class CloudDisk {
 	 */
 	private FileSystem getFS() {
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
+		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
+		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
 		FileSystem fileSystem = null;
 		try {
 			fileSystem = FileSystem.get(conf);

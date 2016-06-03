@@ -18,6 +18,8 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import com.xzc.mapreduce.test.common.HadoopConfig;
 /**
  * @desc   帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
  * @author 925654140@qq.com
@@ -26,13 +28,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  */
 public class AmtSort {
 
-	private final static String hostName = "hdfs://localhost.hadoop1:9000/";
-	private final static String userName = "hadoop";
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
+		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
+		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
 		Job job = Job.getInstance(conf);
 
 		job.setJobName("amtsort");

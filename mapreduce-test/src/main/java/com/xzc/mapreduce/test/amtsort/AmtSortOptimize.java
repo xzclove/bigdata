@@ -22,6 +22,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import com.xzc.mapreduce.test.common.HadoopConfig;
 /**
  * @desc  帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
  * @author 925654140@qq.com
@@ -30,8 +32,6 @@ import org.apache.hadoop.util.ToolRunner;
  */
 public class AmtSortOptimize extends Configured implements Tool {
 
-	private final static String hostName = "hdfs://localhost.hadoop1:9000/";
-	private final static String userName = "hadoop";
 
 	enum Counters {
 		biggerThan50;
@@ -191,8 +191,8 @@ public class AmtSortOptimize extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 
 		Configuration conf = this.getConf();
-		conf.set("fs.defaultFS", hostName);
-		System.setProperty("HADOOP_USER_NAME", userName);
+		conf.set("fs.defaultFS",HadoopConfig.HOSTNAME.getContext());
+		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
 		
 		Job job = Job.getInstance(conf);
 
