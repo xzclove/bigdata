@@ -18,6 +18,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.xzc.mapreduce.test.common.HadoopConfig;
+import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
  * @desc 统计单词出现次数 原始方法
@@ -82,10 +83,10 @@ public class WordCountMapReduce extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 
 		// 1: 得到 confifuration
-		Configuration configuration = getConf();
+		Configuration conf = getConf();
 
 		// 2: 创建 Job
-		Job job = Job.getInstance(configuration, this.getClass().getSimpleName());
+		Job job = Job.getInstance(conf, this.getClass().getSimpleName());
 
 		// 3、设置执行任务的类
 		job.setJarByClass(this.getClass());
@@ -119,6 +120,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 		// 4.4: output
 		Path outPath = new Path(args[1]);
+		HdfsUtil.deleteFile(conf,args[1]);
 		FileOutputFormat.setOutputPath(job, outPath);
 
 		return job.waitForCompletion(true) ? 0 : 1;

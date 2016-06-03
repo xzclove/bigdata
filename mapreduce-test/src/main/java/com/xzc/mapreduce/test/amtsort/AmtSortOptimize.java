@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
@@ -24,6 +23,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.xzc.mapreduce.test.common.HadoopConfig;
+import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
  * @desc  帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
  * @author 925654140@qq.com
@@ -210,12 +210,9 @@ public class AmtSortOptimize extends Configured implements Tool {
 
 		FileInputFormat.addInputPath(job, new Path(args[1]));
 
-		FileSystem fileSystem = FileSystem.get(conf);
 		Path outdir = new Path(args[2]);
-		if (fileSystem.exists(outdir)) {
-			fileSystem.delete(outdir, true);
-		}
 
+		HdfsUtil.deleteFile(conf,args[2]);
 		FileOutputFormat.setOutputPath(job, outdir);
 
 		boolean success = job.waitForCompletion(true);

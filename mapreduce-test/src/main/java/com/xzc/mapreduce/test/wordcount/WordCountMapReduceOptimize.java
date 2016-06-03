@@ -14,6 +14,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.xzc.mapreduce.test.common.HadoopConfig;
+import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
  * @desc 统计单词出现次数 优化方法
@@ -23,12 +24,10 @@ import com.xzc.mapreduce.test.common.HadoopConfig;
  */
 public class WordCountMapReduceOptimize {
 
-	public static void main(String[] args) throws IOException,
-			ClassNotFoundException, InterruptedException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
-		System.setProperty("HADOOP_USER_NAME",
-				HadoopConfig.USERNAME.getContext());
+		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
 		Job job = Job.getInstance(conf);
 
 		job.setJobName("wordcount");
@@ -45,11 +44,10 @@ public class WordCountMapReduceOptimize {
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(IntWritable.class);
 
-		FileInputFormat.addInputPath(job, new Path(
-				"/user/hadoop/mapreduce/input/wc.input"));
+		FileInputFormat.addInputPath(job, new Path("/user/hadoop/mapreduce/input/wc.input"));
 
-		FileOutputFormat.setOutputPath(job, new Path(
-				"/user/hadoop/mapreduce/output8"));
+		HdfsUtil.deleteFile(conf,"/user/hadoop/mapreduce/output8");
+		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/output8"));
 
 		boolean success = job.waitForCompletion(true);
 		if (success) {
@@ -60,14 +58,12 @@ public class WordCountMapReduceOptimize {
 	// 1 map
 	// input: key LongWritable value:Text
 	// output:key --> Text,value --> IntWritable
-	static class WordCountMapper extends
-			Mapper<LongWritable, Text, Text, IntWritable> {
+	static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 		/**
 		 * 重写map方法，实现我们自己的逻辑
 		 */
 		@Override
-		protected void map(LongWritable key, Text value, Context context)
-				throws IOException, InterruptedException {
+		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
 			String[] words = value.toString().split(" ");
 			for (String word : words) {
@@ -82,12 +78,11 @@ public class WordCountMapReduceOptimize {
 	 * @author hadoop
 	 * 
 	 */
-	static class WordCountReducer extends
-			Reducer<Text, IntWritable, Text, IntWritable> {
+	static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 
 		@Override
-		protected void reduce(Text arg0, Iterable<IntWritable> arg1,
-				Context arg2) throws IOException, InterruptedException {
+		protected void reduce(Text arg0, Iterable<IntWritable> arg1, Context arg2) throws IOException,
+				InterruptedException {
 
 			int sum = 0;
 			for (IntWritable i : arg1) {
