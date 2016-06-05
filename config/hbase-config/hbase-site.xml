@@ -23,7 +23,7 @@
 <configuration>
 	<property>
 	  <name>hbase.rootdir</name>
-	  <value>hdfs://localhost.hadoop1:9000/user/hbase</value> 
+	  <value>hdfs://localhost.hadoop:8020/user/hbase</value> 
 	</property>
 	
 	<property>
