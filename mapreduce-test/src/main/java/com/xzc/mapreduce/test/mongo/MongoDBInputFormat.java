@@ -34,14 +34,14 @@ public class MongoDBInputFormat<V extends MongoDBWritable> extends InputFormat<L
 	/**
 	 * MongoDB自定义InputSplit
 	 * 
-	 * @author gerry
+	 * @author gerry       
 	 */
 	static class MongoDBInputSplit extends InputSplit implements Writable {
 		// [start,end)
 		private long start; // 起始位置，包含
 		private long end; // 终止位置，不包含
 
-		public MongoDBInputSplit() {
+		public MongoDBInputSplit() {   
 			super();
 		}
 

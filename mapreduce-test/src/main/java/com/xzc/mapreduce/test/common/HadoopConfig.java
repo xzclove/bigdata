@@ -1,5 +1,7 @@
 package com.xzc.mapreduce.test.common;
 
+import com.xzc.mapreduce.test.util.ConfigHolder;
+
 /**
  * @desc 配置参数枚举类
  * @author 925654140@qq.com
@@ -9,8 +11,9 @@ package com.xzc.mapreduce.test.common;
 
 public enum HadoopConfig {
 
-	HOSTNAME("hdfs://localhost.hadoop1:9000/"), USERNAME("hadoop");
-
+	HOSTNAME(ConfigHolder.getConfig("hdfs.hostname", "hdfs://localhost.hadoop:8020/")), 
+	USERNAME(ConfigHolder.getConfig("hdfs.username", "hadoop"));
+	
 	public String context;
 
 	public String getContext() {
