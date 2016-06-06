@@ -28,12 +28,13 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.xzc.hbase.test.util.HBaseUtil;
 
 /**
- * @Des 类描叙
+ * @Desc Table测试
  * @Author feelingxu@tcl.com:
  * @Date 创建时间：2016年6月6日 下午7:11:07
  * @Version V1.0.0
  */
 public class TestHTable {
+
 	static byte[] family = Bytes.toBytes("f");
 
 	public static void main(String[] args) throws Exception {
@@ -78,14 +79,17 @@ public class TestHTable {
 	 */
 	static void testScan(HTableInterface hTable) throws IOException {
 		Scan scan = new Scan();
+
 		// 增加起始row key
 		scan.setStartRow(Bytes.toBytes("row1"));
 		scan.setStopRow(Bytes.toBytes("row5"));
 		// 增加过滤filter
 		FilterList list = new FilterList(Operator.MUST_PASS_ALL);
+
 		byte[][] prefixes = new byte[2][];
 		prefixes[0] = Bytes.toBytes("id");
 		prefixes[1] = Bytes.toBytes("name");
+
 		MultipleColumnPrefixFilter mcpf = new MultipleColumnPrefixFilter(prefixes);
 		list.addFilter(mcpf);
 		scan.setFilter(list);
@@ -190,6 +194,7 @@ public class TestHTable {
 	 */
 	static void testDelete(HTableInterface hTable) throws IOException {
 		Delete delete = new Delete(Bytes.toBytes("row3"));
+		// 不指定列名，就删除整行
 		// 删除列
 		delete = delete.deleteColumn(family, Bytes.toBytes("id"));
 		// 直接删除family

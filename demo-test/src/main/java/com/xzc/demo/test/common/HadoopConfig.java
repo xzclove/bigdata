@@ -1,9 +1,9 @@
-package com.xzc.hdfs.test.common;
+package com.xzc.demo.test.common;
 
-import com.xzc.hdfs.test.util.ConfigHolder;
+import com.xzc.demo.test.util.ConfigHolder;
 
 /**
- * @desc  配置参数枚举类
+ * @desc 配置参数枚举类
  * @author 925654140@qq.com
  * @date 创建时间：2016年5月29日 上午9:06:17
  * @version 1.0.0
@@ -12,8 +12,9 @@ import com.xzc.hdfs.test.util.ConfigHolder;
 public enum HadoopConfig {
 
 	HOSTNAME(ConfigHolder.getConfig("hdfs.hostname", "hdfs://localhost.hadoop:8020/")), 
+	HBASE_HOSTNAME(ConfigHolder.getConfig("hbase.hostname", "localhost.hadoop")),
 	USERNAME(ConfigHolder.getConfig("hdfs.username", "hadoop"));
-
+	
 	public String context;
 
 	public String getContext() {
@@ -26,6 +27,7 @@ public enum HadoopConfig {
 
 	public static void main(String[] args) {
 		System.out.println(HadoopConfig.HOSTNAME.getContext());
+		System.out.println(HadoopConfig.HBASE_HOSTNAME.getContext());
 		System.out.println(HadoopConfig.USERNAME.getContext());
 	}
 }

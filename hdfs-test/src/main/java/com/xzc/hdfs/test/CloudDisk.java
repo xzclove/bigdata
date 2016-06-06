@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;
@@ -14,7 +13,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
-import com.xzc.hdfs.test.common.HadoopConfig;
+import com.xzc.hdfs.test.util.HdfsUtil;
 
 /**
  * @desc HDFS API 基本测试类
@@ -80,30 +79,12 @@ public class CloudDisk {
 		scanner.close();
 	}
 
-	/**
-	 * 获取FileSystem实例
-	 * 
-	 * @return
-	 */
-	private FileSystem getFS() {
-		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
-		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
-		FileSystem fileSystem = null;
-		try {
-			fileSystem = FileSystem.get(conf);
-			return fileSystem;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	/**
 	 * 查看文件
 	 */
 	public void listFiles(String specialPath) {
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 		try {
 			FileStatus[] fstats = fileSystem.listStatus(new Path(specialPath));
 
@@ -141,7 +122,7 @@ public class CloudDisk {
 	 * @param hdfsFilePath
 	 */
 	public void cat(String hdfsFilePath) {
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 		try {
 
 			FSDataInputStream fdis = fileSystem.open(new Path(hdfsFilePath));
@@ -163,7 +144,7 @@ public class CloudDisk {
 	 */
 	public void mkdir(String hdfsFilePath) {
 
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 
 		try {
 			boolean success = fileSystem.mkdirs(new Path(hdfsFilePath));
@@ -187,7 +168,7 @@ public class CloudDisk {
 	 * @param recursive
 	 */
 	public void rm(String hdfsFilePath, boolean recursive) {
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 		try {
 			boolean success = fileSystem.delete(new Path(hdfsFilePath), recursive);
 			if (success) {
@@ -209,7 +190,7 @@ public class CloudDisk {
 	 * @param hdfsFilePath
 	 */
 	public void put(String localFilePath, String hdfsFilePath) {
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 		try {
 			FSDataOutputStream fdos = fileSystem.create(new Path(hdfsFilePath));
 			FileInputStream fis = new FileInputStream(new File(localFilePath));
@@ -231,7 +212,7 @@ public class CloudDisk {
 	 * @param hdfsFilePath
 	 */
 	public void get(String localFilePath, String hdfsFilePath) {
-		FileSystem fileSystem = this.getFS();
+		FileSystem fileSystem = HdfsUtil.getFS();
 		try {
 			FSDataInputStream fsis = fileSystem.open(new Path(hdfsFilePath));
 			FileOutputStream fos = new FileOutputStream(new File(localFilePath));

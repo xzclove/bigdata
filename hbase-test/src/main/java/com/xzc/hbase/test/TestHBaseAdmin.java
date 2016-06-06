@@ -23,8 +23,8 @@ public class TestHBaseAdmin {
 		HBaseAdmin hBaseAdmin = new HBaseAdmin(conf);
 		try {
 			testCreateTable(hBaseAdmin);
-			// testGetTableDescribe(hBaseAdmin);
-			// testDeleteTable(hBaseAdmin);
+			//testGetTableDescribe(hBaseAdmin);
+			//testDeleteTable(hBaseAdmin);
 		} finally {
 			hBaseAdmin.close();
 		}
@@ -37,7 +37,8 @@ public class TestHBaseAdmin {
 	 */
 	static void testCreateTable(HBaseAdmin hbAdmin) throws IOException {
 		TableName tableName = TableName.valueOf("users");
-		if (!hbAdmin.tableExists(tableName)) { // 判断表是否存在
+		// 判断表是否存在
+		if (!hbAdmin.tableExists(tableName)) { 
 			HTableDescriptor htd = new HTableDescriptor(tableName);
 			htd.addFamily(new HColumnDescriptor("f"));
 			htd.setMaxFileSize(10000L);
@@ -56,7 +57,8 @@ public class TestHBaseAdmin {
 	 */
 	static void testGetTableDescribe(HBaseAdmin hbAdmin) throws IOException {
 		TableName name = TableName.valueOf("users");
-		if (hbAdmin.tableExists(name)) {// 判断表是否存在
+		// 判断表是否存在
+		if (hbAdmin.tableExists(name)) {
 			HTableDescriptor htd = hbAdmin.getTableDescriptor(name);
 			System.out.println(htd);
 		} else {
@@ -72,8 +74,10 @@ public class TestHBaseAdmin {
 	 */
 	static void testDeleteTable(HBaseAdmin hbAdmin) throws IOException {
 		TableName name = TableName.valueOf("users");
-		if (hbAdmin.tableExists(name)) {// 判断表是否存在
-			if (hbAdmin.isTableEnabled(name)) {// 判断表的状态是出于enabled还是disabled状态。
+		// 判断表是否存在
+		if (hbAdmin.tableExists(name)) {
+			// 判断表的状态是出于enabled还是disabled状态。
+			if (hbAdmin.isTableEnabled(name)) {
 				hbAdmin.disableTable(name);
 			}
 			hbAdmin.deleteTable(name);

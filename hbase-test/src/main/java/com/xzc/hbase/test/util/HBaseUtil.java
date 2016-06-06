@@ -3,6 +3,8 @@ package com.xzc.hbase.test.util;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 
+import com.xzc.hbase.test.common.HadoopConfig;
+
 /**
  * @Des 获取hbase的配置文件信息
  * @Author feelingxu@tcl.com:
@@ -12,7 +14,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 public class HBaseUtil {
 	public static Configuration getHBaseConfiguration() {
 		Configuration conf = HBaseConfiguration.create();
-		conf.set("hbase.zookeeper.quorum", "192.168.189.100");
+		conf.set("hbase.zookeeper.quorum", HadoopConfig.HOSTNAME.getContext());
 		return conf;
 	}
 }
