@@ -1,0 +1,47 @@
+1 下载	http://archive.cloudera.com/cdh5/cdh/5/hbase-0.98.6-cdh5.3.6.tar.gz
+2 解压	tar -zxvf xxx
+3 修改conf/hbase-env.sh
+
+	export JAVA_HOME=/opt/modules/jdk1.7.0_67
+	# Extra Java CLASSPATH elements.  Optional.
+	# export HBASE_CLASSPATH=
+	export HBASE_CLASSPATH=/opt/modules/hadoop/hadoop-2.5.0/etc/hadoop
+	export HBASE_PID_DIR=/opt/modules/hbase/hbase/pids
+
+4 修改hbase-site.xml
+	<configuration>
+		<property>
+		  <name>hbase.rootdir</name>
+		  <value>hdfs://localhost.hadoop1:9000/user/hbase</value> 
+		</property>
+		
+		<property>
+		  <name>hbase.cluster.distributed</name>
+		  <value>true</value> 
+		</property>
+		
+		<property>
+		  <name>hbase.tmp.dir</name>
+		  <value>/opt/modules/hbase/hbase/tmp</value> 
+		</property>
+	</configuration>
+	
+5 修改regionservers
+	将主机名添加进去，每行一个
+6 修改环境变量
+	sudo  vim  /etc/profile       环境变量  提前配置好JAVA_HOME
+	source  /etc/profile     修改后使变量生效
+		添加HBASE_HOME和PATH
+	export HBASE_HOME=/opt/modules/hbase
+	export PATH=.:$PATH:$HBASE_HOME/bin
+
+7 启动验证
+     start-hbase.sh
+     jps
+        
+     hbase shell
+
+
+
+
+

@@ -1,4 +1,4 @@
-package com.ibeifeng.xzc.io.test;
+package com.xzc.io.test.server;
 
 import java.io.DataInput;
 import java.io.DataOutput;

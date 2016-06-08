@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xzc.hadoop.test</groupId>
-	<artifactId>demo-test</artifactId>
+	<artifactId>hive-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>demo-test</name>
+	<name>hive-test</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

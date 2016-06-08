@@ -1,0 +1,39 @@
+create 'users','f'
+
+put 'users', 'row1', 'f:id', '1'
+put 'users', 'row1', 'f:name', 'zhangsan'
+put 'users', 'row1', 'f:age', 18
+put 'users', 'row1', 'f:phone', '021-11111111'
+put 'users', 'row1', 'f:email', 'zhangsan@qq.com'
+
+put 'users', 'row2', 'f:id', '2'
+put 'users', 'row2', 'f:name', 'lisi'
+put 'users', 'row2', 'f:email', 'lisi@qq.com'
+put 'users', 'row2', 'f:address', 'shanghai'
+
+put 'users', 'row3', 'f:id', '3'
+put 'users', 'row3', 'f:name', 'lili'
+put 'users', 'row3', 'f:age', 25
+put 'users', 'row3', 'f:country', 'china'
+put 'users', 'row3', 'f:email', 'lili@qq.com'
+
+put 'users', 'row4', 'f:id', '4'
+put 'users', 'row4', 'f:name', 'user4'
+
+put 'users', 'row5', 'f:id', '5'
+put 'users', 'row5', 'f:name', 'user5'
+
+put 'users', 'row6', 'f:id', '6'
+put 'users', 'row6', 'f:name', 'user6'
+
+put 'users', 'row7', 'f:id', '7'
+put 'users', 'row7', 'f:name', 'user7'
+
+put 'users', 'row8', 'f:id', '8'
+put 'users', 'row8', 'f:name', 'user8'
+
+put 'users', 'row9', 'f:id', '9'
+put 'users', 'row9', 'f:name', 'user9'
+
+put 'users', 'row10', 'f:id', '10'
+put 'users', 'row10', 'f:name', 'user10'

@@ -1,0 +1,24 @@
+
+输入以下命令，进入hbase命令，创建表，并导入数据。
+hbase shell
+
+import java.util.Date
+create 'data','f'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100001","p_name":"<张家界-凤凰-天门山-玻璃栈道飞机5日游>","price":"2141"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100002","p_name":"<丽江-香格里拉-泸沽湖双飞7日游>","price":"4429"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100003","p_name":"<香格里拉-昆大丽3飞6日游>","price":"2479"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100004","p_name":"<桂林-阳朔-古东瀑布-世外桃源双飞5日游>","price":"2389"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100005","p_name":"<海南三亚-无自费5日游>","price":"2389"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100006","p_name":"<成都-九寨沟-黄龙-花湖-红原-九曲双飞7日游>","price":"3729"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100007","p_name":"<海南三亚5日游>","price":"2168"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100008","p_name":"<海南三亚五星0购物6日游>","price":"2916"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100009","p_name":"<厦门双飞4日游>","price":"1388"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100010","p_name":"<绵阳-九寨-黄龙-都江堰-成都双飞5日游>","price":"2899"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100011","p_name":"<桂林-阳朔-古东-世外桃源双飞4日游>","price":"2249"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100012","p_name":"<成都-九寨沟-黄龙双飞6日游>","price":"2611"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100013","p_name":"<版纳-香格里拉-昆大丽4飞一卧8日游>","price":"3399"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100014","p_name":"<成都-都江堰-黄龙九寨沟双飞6日游>","price":"2989"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100015","p_name":"<桂林-大漓江-阳朔-龙脊梯田双飞4日游>","price":"2048"}'
+put 'data',Date.new().getTime(),'f:content','{"p_id":"100016","p_name":"<长沙-张家界-黄龙洞-天门山-凤凰双飞7日游>","price":"3141"}'
+
+create 'online_product', 'f'

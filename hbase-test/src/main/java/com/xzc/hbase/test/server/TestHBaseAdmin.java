@@ -1,4 +1,4 @@
-package com.xzc.hbase.test;
+package com.xzc.hbase.test.server;
 
 import java.io.IOException;
 

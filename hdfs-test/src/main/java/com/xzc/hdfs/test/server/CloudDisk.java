@@ -1,4 +1,4 @@
-package com.xzc.hdfs.test;
+package com.xzc.hdfs.test.server;
 
 import java.io.File;
 import java.io.FileInputStream;

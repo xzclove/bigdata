@@ -1,4 +1,4 @@
-package com.xzc.demo.test;
+package com.xzc.zookeeper.test.server;
 
 /**
  * Hello world!

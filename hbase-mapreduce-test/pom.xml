@@ -3,20 +3,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xzc.hadoop.test</groupId>
-	<artifactId>hbase-test</artifactId>
+	<artifactId>hbase-mapreduce-test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>hbase-test</name>
+	<name>hbase-mapreduce-test</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hadoop.version>2.5.0</hadoop.version>
+		<zookeeper.version>3.4.6</zookeeper.version>
 	</properties>
 
 	<dependencies>
 
+		<!-- junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -24,16 +26,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- hadoop -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>${hadoop.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -42,6 +39,13 @@
 			<version>1.7</version>
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+
+		<!-- zookeeper -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
 		</dependency>
 
 		<!-- hbase -->
@@ -57,11 +61,18 @@
 			<version>0.98.6-hadoop2</version>
 		</dependency>
 
-		<!-- org.apache.commons/commons-lang3 -->
+		<!-- org.apache.commons -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
+		</dependency>
+
+		<!-- mongodb -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.9.1</version>
 		</dependency>
 
 	</dependencies>

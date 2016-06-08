@@ -1,4 +1,4 @@
-package com.xzc.zookeeper.test;
+package com.xzc.hive.test.server;
 
 /**
  * Hello world!
