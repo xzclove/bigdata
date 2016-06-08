@@ -19,11 +19,19 @@
 		hdfs dfs -mkdir /complex_table_test
 		hdfs dfs -put data2.txt /complex_table_test
 	案例4：
-		hive和hbase关联
+		hive 和  hbase关联
+		
+		key -- rowkey必须要的
+		---创建hive关联hbase的外部表,先创建hbase数据  -> hbasedata.input
 		create external table hive_users(key string,id int, name string, phone string) 
 		row format serde 'org.apache.hadoop.hive.hbase.HBaseSerDe' 
 		stored by 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' 
-		with serdeproperties('hbase.columns.mapping'=':key,f:id,f:name,f:phone') tblproperties('hbase.table.name'='users');
-	
-		
-		
+		with serdeproperties('hbase.columns.mapping'=':key,f:id,f:name,f:phone') tblproperties('hbase.table.name'='user');
+		---要用下面的一行数据创建，不然报错
+		create external table hive_users(key string,id int, name string, phone string)row format serde 'org.apache.hadoop.hive.hbase.HBaseSerDe' stored by 'org.apache.hadoop.hive.hbase.HBaseStorageHandler' with serdeproperties('hbase.columns.mapping'=':key,f:id,f:name,f:phone') tblproperties('hbase.table.name'='user');
+		---
+		show tables;
+		describe  formatted hive_users;
+		select * from hive_users;
+		drop table hive_users;
+		show create table hive_users;  查看创建表的结构

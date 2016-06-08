@@ -1,0 +1,41 @@
+create 'user','f'
+
+put 'user', 'row1', 'f:id', '1'
+put 'user', 'row1', 'f:name', 'zhangsan'
+put 'user', 'row1', 'f:phone', '021-11111111'
+
+put 'user', 'row2', 'f:id', '2'
+put 'user', 'row2', 'f:name', 'lisi'
+put 'user', 'row2', 'f:phone', '021-111111311'
+
+put 'user', 'row3', 'f:id', '3'
+put 'user', 'row3', 'f:name', 'lili'
+put 'user', 'row3', 'f:phone', '021-111141113'
+
+put 'user', 'row4', 'f:id', '4'
+put 'user', 'row4', 'f:name', 'user4'
+put 'user', 'row4', 'f:phone', '021-111114111'
+
+put 'user', 'row5', 'f:id', '5'
+put 'user', 'row5', 'f:name', 'user5'
+put 'user', 'row5', 'f:phone', '021-111111115'
+
+put 'user', 'row6', 'f:id', '6'
+put 'user', 'row6', 'f:name', 'user6'
+put 'user', 'row6', 'f:phone', '021-111111116'
+
+put 'user', 'row7', 'f:id', '7'
+put 'user', 'row7', 'f:name', 'user7'
+put 'user', 'row7', 'f:phone', '021-111111117'
+
+put 'user', 'row8', 'f:id', '8'
+put 'user', 'row8', 'f:name', 'user8'
+put 'user', 'row8', 'f:phone', '021-111111118'
+
+put 'user', 'row9', 'f:id', '9'
+put 'user', 'row9', 'f:name', 'user9'
+put 'user', 'row9', 'f:phone', '021-111111119'
+
+put 'user', 'row10', 'f:id', '10'
+put 'user', 'row10', 'f:name', 'user10'
+put 'user', 'row10', 'f:phone', '021-111111110'

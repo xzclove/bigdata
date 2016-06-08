@@ -1,0 +1,14 @@
+作业1：
+with tmp as (select '1' as id,'total',count(distinct studentid) as count from students), tmp2 as (select '1' as id,'depart',count(distinct studentid) as count from students where classid is not null), tmp3 as (select '1' as id,'non-depart', (tmp.count - tmp2.count) as count from tmp, tmp2) select tmp.count, tmp2.count ,tmp3.count from tmp join tmp2 on tmp.id=tmp2.id join tmp3 on tmp.id=tmp3.id;
+
+作业2：
+select * from students right join classes on students.classid=classes.classid;
+
+作业3：
+select * from students full join classes on students.classid=classes.classid;
+
+作业4：
+with tmp1 as (select count(studentid) as student_count,classid from students group by classid having classid is not null), tmp2 as (select max(student_count) as student_count from tmp1) from classes join tmp1 on classes.classid=tmp1.classid join tmp2 on tmp1.student_count=tmp2.student_count select classes.*;
+
+作业5：
+from students insert overwrite local directory  '/home/hadoop/result/13/02' select students.studentid,students.classid,students.studentname where students.studentid is not null insert overwrite local directory '/home/hadoop/result/13/03' select students.studentid,students.classid,students.studentname where students.studentid is null;
