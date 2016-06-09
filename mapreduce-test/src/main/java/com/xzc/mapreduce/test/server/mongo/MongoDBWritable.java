@@ -1,4 +1,4 @@
-package com.xzc.mapreduce.test.mongo;
+package com.xzc.mapreduce.test.server.mongo;
 
 import org.apache.hadoop.io.Writable;
 

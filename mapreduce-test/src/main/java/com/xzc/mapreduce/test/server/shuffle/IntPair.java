@@ -1,4 +1,4 @@
-package com.xzc.mapreduce.test.shuffle;
+package com.xzc.mapreduce.test.server.shuffle;
 
 
 import java.io.DataInput;
