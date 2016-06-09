@@ -1,10 +1,11 @@
-package com.xzc.mapreduce.test.amtsort;
+package com.xzc.mapreduce.test.server.amtsort;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
@@ -18,42 +19,40 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
 
-import com.xzc.mapreduce.test.util.DateUtil;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
- * @desc   帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
+ * @desc  帐号,消费金额  进行二次排序，先按照帐号升序，帐号相同，按照消费金额降序
  * @author 925654140@qq.com
  * @date 创建时间：2016年5月29日 上午9:06:17
  * @version 1.0.0
  */
-public class AmtSort {
+public class AmtSortOptimize extends Configured implements Tool {
 
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		Configuration conf = HdfsUtil.getConf();
-		Job job = Job.getInstance(conf);
+	enum Counters {
+		biggerThan50;
+	}
 
-		job.setJobName("amtsort");
-		job.setJarByClass(AmtSort.class);
+	private static void printUsage() {
+		String usage = "Usage:请指定三个参数 1）Job名称 2）输入文件路径 3）输出文件文件";
+		System.err.println(usage);
+	}
 
-		job.setMapperClass(AmtSortMapper.class);
+	public static void main(String[] args) throws Exception {
 
-		// 指定排序的类为自定义的排序类
-		job.setSortComparatorClass(MySelfSorter.class);
+		if (args.length != 3) {
+			printUsage();
+			return;
+		}
+		int exitcode = ToolRunner.run(new AmtSortOptimize(), args);
 
-		job.setReducerClass(AmtSortReducer.class);
-
-		job.setMapOutputKeyClass(MyKey.class);
-		job.setMapOutputValueClass(NullWritable.class);
-
-		FileInputFormat.addInputPath(job, new Path("/user/hadoop/mapreduce/sort/input/"));
-
-		FileOutputFormat.setOutputPath(job, new Path("/user/hadoop/mapreduce/sort/output/"+DateUtil.currentDateHMS()));
-
-		boolean success = job.waitForCompletion(true);
-		if (success) {
+		if (exitcode == 0) {
 			System.out.println("任务执行成功");
+		} else {
+			System.out.println("任务执行失败");
 		}
 	}
 
@@ -61,16 +60,11 @@ public class AmtSort {
 	 * 自定义key值
 	 * 
 	 * @author hadoop
+	 * 
 	 */
 	static class MyKey implements WritableComparable<MyKey> {
 
-		/**
-		 * 帐号
-		 */
 		private int acctNo;
-		/**
-		 * 金额
-		 */
 		private double amt;
 
 		@Override
@@ -90,10 +84,9 @@ public class AmtSort {
 		 */
 		@Override
 		public int compareTo(MyKey other) {
-			// 先比较帐号是否相等
+
 			int result = Integer.compare(this.acctNo, other.getAcctNo());
 			if (result == 0) {
-				// 帐号相同再比较消费金额
 				return Double.compare(this.amt, other.getAmt());
 			}
 			return result;
@@ -123,7 +116,6 @@ public class AmtSort {
 		 */
 		@Override
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
 			String[] amtAcct = value.toString().split(",");
 			int acctNo = 0;
 			double amt = 0;
@@ -135,6 +127,9 @@ public class AmtSort {
 				return;
 			}
 
+			if (amt > 50) {
+				context.getCounter(Counters.biggerThan50).increment(1);
+			}
 			MyKey myKey = new MyKey();
 			myKey.setAcctNo(acctNo);
 			myKey.setAmt(amt);
@@ -142,6 +137,11 @@ public class AmtSort {
 		}
 	}
 
+	/**
+	 * 
+	 * @author hadoop
+	 * 
+	 */
 	static class AmtSortReducer extends Reducer<MyKey, NullWritable, IntWritable, DoubleWritable> {
 
 		@Override
@@ -156,6 +156,7 @@ public class AmtSort {
 	 * 自定义排序
 	 * 
 	 * @author hadoop
+	 * 
 	 */
 	static class MySelfSorter extends WritableComparator {
 
@@ -183,5 +184,37 @@ public class AmtSort {
 			return result;
 		}
 
+	}
+
+	@Override
+	public int run(String[] args) throws Exception {
+
+		Configuration conf = HdfsUtil.getConf();
+		Job job = Job.getInstance(conf);
+
+		job.setJobName(args[0]);
+		job.setJarByClass(AmtSortOptimize.class);
+
+		job.setMapperClass(AmtSortMapper.class);
+
+		// 指定排序的类为自定义的排序类
+		job.setSortComparatorClass(MySelfSorter.class);
+		job.setReducerClass(AmtSortReducer.class);
+
+		job.setMapOutputKeyClass(MyKey.class);
+		job.setMapOutputValueClass(NullWritable.class);
+
+		FileInputFormat.addInputPath(job, new Path(args[1]));
+
+		Path outdir = new Path(args[2]);
+
+		HdfsUtil.deleteFile(args[2]);
+		FileOutputFormat.setOutputPath(job, outdir);
+
+		boolean success = job.waitForCompletion(true);
+		if (success) {
+			return 0;
+		}
+		return 1;
 	}
 }

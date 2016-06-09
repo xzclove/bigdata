@@ -125,27 +125,7 @@ public final class JsonUtils {
         return dataNode.toString();
     }
     
-    /**
-     * 
-     * getJsonAsBool(从json串中获取某key对应的值)
-     * 
-     * @param jsonSrc
-     * @param jsonKey
-     * @return
-     * @return boolean 返回类型
-     * @author lennylv
-     * @date 2016年4月29日 下午7:03:04
-     * @version [1.0, 2016年4月29日]
-     * @since version 1.0
-     */
-    public static boolean getJsonAsBool(String jsonSrc, String jsonKey) {
-        JsonNode node = JsonUtils.json2obj(jsonSrc, JsonNode.class);
-        
-        // 获取jsonKey数据
-        JsonNode dataNode = node.get(jsonKey);
-        
-        return dataNode.asBoolean();
-    }
+
     
     /**
      * 

@@ -1,4 +1,4 @@
-package com.xzc.mapreduce.test.wordcount;
+package com.xzc.mapreduce.test.server.wordcount;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
@@ -142,7 +142,9 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 		String[] argsPath = { "/user/hadoop/mapreduce/input/wc.input", "/user/hadoop/mapreduce/output/"+DateUtil.currentDateHMS() };
 		int status = ToolRunner.run(configuration, new WordCountMapReduce(), argsPath);
-
+		if(status == 0){
+			System.out.print("success job ");
+		}
 		System.exit(status);
 	}
 

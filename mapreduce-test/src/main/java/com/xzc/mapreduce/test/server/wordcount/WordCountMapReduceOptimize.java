@@ -1,4 +1,4 @@
-package com.xzc.mapreduce.test.wordcount;
+package com.xzc.mapreduce.test.server.wordcount;
 
 import java.io.IOException;
 

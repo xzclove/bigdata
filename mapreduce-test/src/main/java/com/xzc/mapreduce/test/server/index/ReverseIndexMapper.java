@@ -1,4 +1,4 @@
-package com.xzc.mapreduce.test.index;
+package com.xzc.mapreduce.test.server.index;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
