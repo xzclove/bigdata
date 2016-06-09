@@ -6,21 +6,26 @@ hive启动
 数据文件准备
 	将文档文件夹中的classes.txt和students.txt移动到linux机器和hdfs文件系统上。
 	命令：hdfs dfs -put ./13 /beifeng/
+	
+	set hive.cli.print.current.db=true;
+	
 创建hive相关表准备：
-create database beifeng13;
+create database xzc;
+use xzc;
 create table students(studentId int comment 'this is student id, is not null', classId int comment 'this is class id, can set to null', studentName string comment 'this is student name') row format delimited fields terminated by ',';
 create table classes(classId int comment 'this is class id, is not null', className string comment 'this is class name') row format delimited fields terminated by ',';
 
 一、导入数据
     1. 分别导入local和hdfs的数据
 		a. 分别从linux机器上导入数据
-			load data local inpath '/home/hadoop/datas/13/classes.txt' into table classes;
-			load data local inpath '/home/hadoop/datas/13/students.txt' into table students;
-			load data local inpath '/home/hadoop/datas/13/classes.txt' overwrite into table classes;
+			load data local inpath '/home/hadoop/data/hive-demo-data-student/classes.input' into table classes;
+			load data local inpath '/home/hadoop/data/hive-demo-data-student/students.input' into table students;
+			//覆盖所有数据
+			load data local inpath '/home/hadoop/data/hive-demo-data-student/classes.input' overwrite into table classes;
 		b. 从hdfs上导入数据
-			load data inpath '/beifeng/13/students.txt' into table students;
-			dfs -put /home/hadoop/datas/13/students.txt /beifeng/13/
-			load data inpath '/beifeng/13/students.txt' overwrite into table students;
+			load data inpath '/user/hive/data/hive-demo-data-student/students.input' into table students;
+			dfs -put /home/hadoop/data/hive-demo-data-student/students.input /user/hive/data/hive-demo-data-student/
+			load data inpath '/user/hive/data/hive-demo-data-student/students.input' overwrite into table students;
 	2. 导入其他表的数据(多表插入)
 		将学生表的学生id和classid分别导出到不同表中，
 		create table test1(id int);
@@ -49,13 +54,14 @@ create table classes(classId int comment 'this is class id, is not null', classN
 		1. 使用order by根据学生id倒序。
 			select * from students order by studentid desc;
 		2. 设置hive.mapred.mode为strict，然后在进行order by操作。
-			set hive.mapred.mode=strict;
+			set hive.mapred.mode=strict;  ---
 			select * from students order by studentid desc; 会出现异常
 			select * from students order by studentid desc limit 5;
 		3. 使用sort by根据学生id排序。
 			select * from students sort by studentid desc;
 		4. 设置mapreduce.job.reduces个数为两个，然后再使用sort by进行排序。
 			set mapreduce.job.reduces=2;
+			set mapreduce.job.reduces=-1;  默认的
 			select * from students sort by studentid desc;
 三、join语法
 	内连接语法
