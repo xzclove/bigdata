@@ -1,0 +1,26 @@
+# /etc/profile
+
+
+
+export FINDBUGS_HOME=/opt/modules/findbugs-3.0.0-dev-20131204-e3cbbd5
+export MAVEN_HOME=/opt/modules/apache-maven-3.0.5
+export PROTOC_HOME=/usr/local/protoc
+export JAVA_HOME=/opt/modules/jdk1.7.0_67
+export HADOOP_HOME=/opt/modules/hadoop/hadoop-2.5.0
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+export HBASE_HOME=/opt/modules/hbase
+export HIVE_HOME=/opt/modules/hive
+export PATH=.:/usr/local/protoc/bin:$FINDBUGS_HOME/bin:$MAVEN_HOME/bin:$JAVA_HOME/bin:$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PROTOC_HOME/bin:$HBASE_HOME/bin
+export PATH=$PATH:$HIVE_HOME/bin
+
+export FLUME_HOME=/opt/modules/flume-1.5.0
+export PATH=$PATH:$FLUME_HOME/bin
+
+export SQOOP_HOME=/opt/modules/sqoop-1.4.5-cdh5.3.6
+export PATH=$PATH:$SQOOP_HOME/bin
