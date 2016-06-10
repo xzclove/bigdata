@@ -102,5 +102,6 @@ create table classes(classId int comment 'this is class id, is not null', classN
 	1. 在students和classes表上创建一个视图，视图包含两列分别是：班级名称，学生名称
 		create view viewname as select classes.classname as cname, students.studentname as sname from classes join students on classes.classid = students.classid 
 	2. 在linux系统中通过命令hive -f/-e将所有学生信息保存到一个文件中。
+		hive --database beifeng13 -e "select * from students"
 		新建一个文件，文件内容为:select * from students
 		执行：hive --database beifeng13 -f test.sql >> result.txt

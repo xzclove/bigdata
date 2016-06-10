@@ -44,13 +44,7 @@
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
-
-		<!-- zookeeper -->
-		<dependency>
-			<groupId>org.apache.zookeeper</groupId>
-			<artifactId>zookeeper</artifactId>
-			<version>${zookeeper.version}</version>
-		</dependency>
+	
 
 		<!-- hbase begin -->
 		<dependency>
@@ -58,7 +52,6 @@
 			<artifactId>hbase-client</artifactId>
 			<version>0.98.6-hadoop2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-server</artifactId>
@@ -71,16 +64,15 @@
 			<version>0.13.1</version>
 		</dependency>
 		<!-- hbase end -->
-
-		<!-- mongodb -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>2.9.1</version>
+		
+		
+		<!-- hive begin -->
+     	<dependency>
+			<groupId>org.apache.hive</groupId>
+			<artifactId>hive-exec</artifactId>
+			<version>0.13.1</version>
 		</dependency>
-
-		<!-- spring dependencies begin -->
-		<!-- spring dependencies end -->	
+		<!-- hive end -->
 
 		<!-- database mysql dependencies begin -->		
 		<dependency>
@@ -90,35 +82,14 @@
 		</dependency>
 		<!-- database mysql dependencies end -->		
 
-		<!-- logging dependencies begin -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.1.2</version>
-		</dependency>
-		<!-- logging dependencies end -->
+	
 
-		<!-- commons dependencies begin -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.9</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.3</version>
-		</dependency>
+		<!-- commons dependencies begin -->	
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.9</version>
-		</dependency>		
+		</dependency>	
 		<!-- commons dependencies end -->	
 
 		<!-- test dependencies begin -->
