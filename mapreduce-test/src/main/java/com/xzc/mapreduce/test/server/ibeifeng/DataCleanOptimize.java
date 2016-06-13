@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -30,17 +29,12 @@ import com.xzc.mapreduce.test.util.HdfsUtil;
  * @Date 创建时间：2016年6月3日 下午3:40:24
  * @Version V1.0.0
  */
-public class DataCleanOptimize extends Configured implements Tool {
-
-	private static void printUsage() {
-		String usage = "Usage:请指定三个参数 1）Job名称 2）输入文件路径 3）输出文件文件";
-		System.err.println(usage);
-	}
+public class DataCleanOptimize extends Configured implements Tool {	
 
 	public static void main(String[] args) throws Exception {
 		Configuration configuration = HdfsUtil.getLocalConf();
 		if (args.length != 3) {
-			printUsage();
+			System.err.println("Usage:请指定三个参数 1）Job名称 2）输入文件路径 3）输出文件文件");
 			System.exit(0);
 		}
 		int exitcode = ToolRunner.run(configuration,new DataCleanOptimize(), args);
@@ -91,7 +85,7 @@ public class DataCleanOptimize extends Configured implements Tool {
 	@Override
 	public int run(String[] args) throws Exception {
 
-		Configuration conf = this.getConf();
+		Configuration conf = HdfsUtil.getLocalConf();
 
 		Job job = Job.getInstance(conf);
 
@@ -105,12 +99,10 @@ public class DataCleanOptimize extends Configured implements Tool {
 
 		FileInputFormat.addInputPath(job, new Path(args[1]));
 
-		FileSystem fileSystem = FileSystem.get(conf);
 		Path outdir = new Path(args[2]);
-		if (fileSystem.exists(outdir)) {
-			fileSystem.delete(outdir, true);
-		}
+		HdfsUtil.deleteFile(outdir);
 		FileOutputFormat.setOutputPath(job, outdir);
+		
 		// 这里将reduce的个数设置为零
 		job.setNumReduceTasks(0);
 

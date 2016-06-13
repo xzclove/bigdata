@@ -56,13 +56,13 @@ public class HdfsUtil {
 	/**
 	 *   如果HDFS存在就删除文件
 	 */
-	public static boolean deleteFile(String path) throws IOException {
+	public static boolean deleteFile(Path outdir) throws IOException {
 		FileSystem fs = getFS();
 		try {
 			// 如果存在就删掉
-			if (fs.exists(new Path(path))) {
-				System.out.println("####  exist " + path);
-				return fs.delete(new Path(path), true);
+			if (fs.exists(outdir)) {
+				System.out.println("####  exist " + outdir.getName());
+				return fs.delete(outdir, true);
 			}
 			return false;
 		} finally {

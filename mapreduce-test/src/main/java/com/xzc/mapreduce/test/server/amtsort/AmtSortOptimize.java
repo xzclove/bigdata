@@ -208,7 +208,7 @@ public class AmtSortOptimize extends Configured implements Tool {
 
 		Path outdir = new Path(args[2]);
 
-		HdfsUtil.deleteFile(args[2]);
+		HdfsUtil.deleteFile(outdir);
 		FileOutputFormat.setOutputPath(job, outdir);
 
 		boolean success = job.waitForCompletion(true);

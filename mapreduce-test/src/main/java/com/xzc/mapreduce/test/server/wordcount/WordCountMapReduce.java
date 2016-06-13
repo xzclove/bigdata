@@ -120,7 +120,7 @@ public class WordCountMapReduce extends Configured implements Tool {
 
 		// 4.4: output
 		Path outPath = new Path(args[1]);
-		HdfsUtil.deleteFile(args[1]);
+		HdfsUtil.deleteFile(outPath);
 		FileOutputFormat.setOutputPath(job, outPath);
 
 		return job.waitForCompletion(true) ? 0 : 1;

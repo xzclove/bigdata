@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -18,21 +17,20 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.partition.HashPartitioner;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import com.xzc.mapreduce.test.util.HdfsUtil;
 /**
- * 演示join
+ * @Des 倒排索引
+ * @Author feelingxu@tcl.com:
+ * @Date 创建时间：2016年6月3日 下午3:40:24
+ * @Version V1.0.0
  */
 public class IndexOptimize extends Configured implements Tool{
 	
-	private static void printUsage(){
-		String usage = "Usage:请指定四个参数 1）Job名称 2）输入文件路径 3）输出文件文件";
-		System.err.println(usage);
-	}
-	
-	public static void main(String[] args) throws Exception{
-		
+	public static void main(String[] args) throws Exception{		
 		if(args.length != 3){
-			printUsage();
-			return;
+			System.err.println("Usage:请指定三个参数 1）Job名称 2）输入文件路径 3）输出文件文件 4）第二个任务的输出路径");
+			System.exit(0);
 		}
 		int exitcode = ToolRunner.run(new IndexOptimize(), args);
 		
@@ -145,8 +143,7 @@ public class IndexOptimize extends Configured implements Tool{
 		@Override
 		public int run(String[] args) throws Exception {
 			
-			Configuration conf  = this.getConf();
-			//conf.set("fs.defaultFS", "hdfs://hadoop01-senior.ibeifeng.com:8020");
+			Configuration conf = HdfsUtil.getLocalConf();
 			
 			Job job = Job.getInstance(conf);
 			
@@ -166,11 +163,8 @@ public class IndexOptimize extends Configured implements Tool{
 			
 			FileInputFormat.addInputPath(job, new Path(args[1]));
 			
-			FileSystem fileSystem  = FileSystem.get(conf);
 			Path outdir = new Path(args[2]);
-			if(fileSystem.exists(outdir)){
-				fileSystem.delete(outdir, true);
-			}
+			HdfsUtil.deleteFile(outdir);
 			FileOutputFormat.setOutputPath(job, outdir);
 			
 			job.setNumReduceTasks(4);
