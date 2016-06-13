@@ -16,6 +16,11 @@ import com.xzc.demo.test.common.HadoopConfig;
  */
 public class HdfsUtil {
 
+	/**
+	 * 配置中心
+	 */
+	private static Configuration conf = new Configuration();
+
 	public static FileSystem getFS() {
 		FileSystem fileSystem = null;
 		try {
@@ -27,13 +32,30 @@ public class HdfsUtil {
 		return null;
 	}
 
+	/**
+	 * HDFS 模式的配置中心
+	 */
 	public static Configuration getConf() {
-		Configuration conf = new Configuration();
 		conf.set("fs.defaultFS", HadoopConfig.HOSTNAME.getContext());
 		System.setProperty("HADOOP_USER_NAME", HadoopConfig.USERNAME.getContext());
+
+		// set compress
+		// configuration.set("mapreduce.map.output.compress", "true");
+		// configuration.set("mapreduce.map.output.compress.codec","org.apache.hadoop.io.compress.SnappyCodec");
+
 		return conf;
 	}
 
+	/**
+	 * 本地模式的配置中心
+	 */
+	public static Configuration getLocalConf() {
+		return conf;
+	}
+
+	/**
+	 *   如果HDFS存在就删除文件
+	 */
 	public static boolean deleteFile(String path) throws IOException {
 		FileSystem fs = getFS();
 		try {

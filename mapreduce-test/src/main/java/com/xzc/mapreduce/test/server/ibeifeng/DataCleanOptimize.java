@@ -92,7 +92,6 @@ public class DataCleanOptimize extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 
 		Configuration conf = this.getConf();
-		// conf.set("fs.defaultFS", "hdfs://hadoop01-senior.ibeifeng.com:8020");
 
 		Job job = Job.getInstance(conf);
 
