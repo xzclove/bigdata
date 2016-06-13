@@ -1,10 +1,11 @@
-package com.xzc.mapreduce.test.base;
+package com.xzc.mapreduce.test.server.average;
 
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -18,17 +19,20 @@ import org.apache.hadoop.util.ToolRunner;
 import com.xzc.mapreduce.test.util.HdfsUtil;
 
 /**
- * @desc mapreduce基本类
+ * @desc 求用户历史消费日平均额
+ * ----> 记录数据
+ * 		 123,2016-09-08,234.67
+ *		 123,2016-09-08,454.34 
  * @author 925654140@qq.com
- * @date 创建时间：2016年5月29日 上午9:06:17
+ * @date 创建时间：2016年6月08日 上午9:06:17
  * @version 1.0.0
  */
-public class BaseMapReduce extends Configured implements Tool {
+public class AverageDayMapReduce extends Configured implements Tool {
 
 	/**
 	 * step 1: 建立 Map 处理类
 	 */
-	public static class BaseMapper extends Mapper<LongWritable, Text, Text, Text> {
+	public static class AverageDayMapper extends Mapper<LongWritable, Text, Text, Text> {
 
 		private Text mapOutputKey = new Text();
 
@@ -38,26 +42,36 @@ public class BaseMapReduce extends Configured implements Tool {
 		@Override
 		public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-			// 读出到每一行到字符串
-			String lineValue = value.toString();
+			System.out.println(value);
+			// 对一行数据进行分隔
+			String[] infoArr =value.toString().split(",");
+ 
+			mapOutputKey.set(infoArr[0]+","+infoArr[1]);
+			mapOuputValue.set(infoArr[2]);
 
-			mapOutputKey.set(mapOutputKey);
-			mapOuputValue.set(mapOuputValue);
-
-			context.write(mapOutputKey, mapOuputValue);
+			context.write(mapOutputKey, mapOuputValue);//123,2016-09-08   234.67
 		}
 	}
 
 	/**
 	 * step 2: 建立处理计算类
 	 */
-	public static class BaseReducer extends Reducer<Text, Text, Text, Text> {
+	public static class AverageDayReducer extends Reducer<Text, Text, Text, DoubleWritable> {
 
-		private Text outputValue = new Text();
+		private DoubleWritable outputValue = new DoubleWritable();
 
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 
+			double sum=0;
+			int count=0;
+			for(Text value:values){
+				double money=Double.valueOf(value.toString());
+				sum=sum+money;
+				count++;
+			}
+			// 输出平均数
+			outputValue.set(sum/count);
 			// 通过上下文输出
 			context.write(key, outputValue);
 		}
@@ -84,26 +98,15 @@ public class BaseMapReduce extends Configured implements Tool {
 		FileInputFormat.addInputPath(job, inPath);
 
 		// 4.2: map
-		job.setMapperClass(BaseMapper.class);
+		job.setMapperClass(AverageDayMapper.class);
 		job.setMapOutputKeyClass(Text.class);
 		job.setMapOutputValueClass(Text.class);
 
-		// ****************************Shuffle*********************************
-		// 1) partitioner
-		// job.setPartitionerClass(cls);
-		// 2) sort
-		// job.setSortComparatorClass(cls);
-		// 3) optional,combiner
-		// job.setCombinerClass(cls);
-		// 4) group
-		// job.setGroupingComparatorClass(cls);
-
-		// ****************************Shuffle*********************************
 
 		// 4.3: reduce
-		job.setReducerClass(BaseReducer.class);
+		job.setReducerClass(AverageDayReducer.class);
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
+		job.setOutputValueClass(DoubleWritable.class);
 
 		// 4.4: output
 		Path outPath = new Path(args[1]);
@@ -129,7 +132,7 @@ public class BaseMapReduce extends Configured implements Tool {
 		// String[] argsPath = { "/user/hadoop/mapreduce/input/wc.input" ,
 		// "/user/hadoop/mapreduce/output/" + DateUtil.currentDateHMS() };
 
-		int status = ToolRunner.run(configuration, new BaseMapReduce(), args);
+		int status = ToolRunner.run(configuration, new AverageDayMapReduce(), args);
 		if (status == 0) {
 			System.out.println("任务执行成功");
 		} else {
@@ -140,6 +143,7 @@ public class BaseMapReduce extends Configured implements Tool {
 
 	private static void printUsage() {
 		System.err.println("请输入两个参数，args[0] 是输入路径，args[1] 是输出路径!!!");
+		//  /user/hadoop/mapreduce/input/average  /user/hadoop/mapreduce/output/average/20160613
 	}
 
 }
