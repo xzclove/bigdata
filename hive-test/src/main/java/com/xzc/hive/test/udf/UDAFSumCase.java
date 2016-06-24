@@ -1,4 +1,4 @@
-package com.xzc.hive.test.ql;
+package com.xzc.hive.test.udf;
 
 
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
@@ -16,10 +16,10 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectIn
 import org.apache.hadoop.io.LongWritable;
 
 /**
- * 自定义UDAF函数实现
- * 
- * @author gerry
- *
+ * @desc 求和类
+ * @author 925654140@qq.com
+ * @date 创建时间：2016年5月29日 上午9:06:17
+ * @version 1.0.0
  */
 @SuppressWarnings("deprecation")
 public class UDAFSumCase extends AbstractGenericUDAFResolver {

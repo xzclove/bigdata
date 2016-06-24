@@ -1,14 +1,14 @@
-package com.xzc.hive.test.ql;
+package com.xzc.hive.test.udf;
 
 import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.io.Text;
 
+
 /**
- * 自定义UDF，要求继承udf，并重载实现evaluate方法
- * <br/>
- * 一个输入对应一个输出
- * @author gerry
- *
+ * @desc 大小写转换
+ * @author 925654140@qq.com
+ * @date 创建时间：2016年5月29日 上午9:06:17
+ * @version 1.0.0
  */
 public class UDFLowerOrUpperCase extends UDF {
 	/**

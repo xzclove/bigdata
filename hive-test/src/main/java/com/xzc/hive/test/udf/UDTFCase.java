@@ -1,4 +1,4 @@
-package com.xzc.hive.test.ql;
+package com.xzc.hive.test.udf;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,12 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.StructObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 
+/**
+ * @desc  
+ * @author 925654140@qq.com
+ * @date 创建时间：2016年5月29日 上午9:06:17
+ * @version 1.0.0
+ */
 public class UDTFCase extends GenericUDTF {
 
 	@Override

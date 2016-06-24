@@ -8,7 +8,6 @@ import com.xzc.hive.test.util.ConfigHolder;
  * @date 创建时间：2016年5月29日 上午9:06:17
  * @version 1.0.0
  */
-
 public enum HadoopConfig {
 
 	HOSTNAME(ConfigHolder.getConfig("hdfs.hostname", "hdfs://localhost.hadoop:8020/")), 

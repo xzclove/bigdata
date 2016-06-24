@@ -25,9 +25,27 @@
   <property>
   	<name>javax.jdo.option.ConnectionPassword</name>
   	<value>hive</value>
-  </property>
+  </property>  
+
   <property>
-    <name>fs.permissions.umask-mode</name>
-    <value>022</value>   
+    <name>hive.cli.print.header</name>
+    <value>true</value>
   </property>
+
+  <property>
+    <name>hive.cli.print.current.db</name>
+    <value>true</value>
+  </property>
+  
+   <property>
+    <name>hive.server2.long.polling.timeout</name>
+    <value>5000</value>   
+  </property>
+  
+   <property>
+    <name>hive.server2.thrift.bind.host</name>
+    <value>localhost.hadoop</value>   
+  </property>
+  
+ 
 </configuration>
