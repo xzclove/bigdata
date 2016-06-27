@@ -19,6 +19,11 @@ public class ProductModel implements WritableComparable<ProductModel> {
 	private String price;
 
 	public ProductModel() {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		super();
 	}
 

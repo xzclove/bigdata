@@ -23,7 +23,7 @@
    </property>
    <property>
    <name>hadoop.tmp.dir</name>
-       <value>/opt/modules/hadoop/hadoop-2.5.0/data/tmp</value>
+       <value>/opt/modules/hadoop/hadoop-2.5.0-cdh5.3.6/data/tmp</value>
        <description>A base for other temporary directories.</description>
    </property>
 </configuration>

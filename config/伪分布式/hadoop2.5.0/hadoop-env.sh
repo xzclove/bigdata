@@ -26,7 +26,7 @@ export JAVA_HOME=/opt/modules/jdk1.7.0_67
 
 # The jsvc implementation to use. Jsvc is required to run secure datanodes.
 #export JSVC_HOME=${JSVC_HOME}
-export HADOOP_CONF_DIR=/opt/modules/hadoop/hadoop-2.5.0/etc/hadoop
+export HADOOP_CONF_DIR=/opt/modules/hadoop/hadoop-2.5.0-cdh5.3.6/etc/hadoop
 
 # Extra Java CLASSPATH elements.  Automatically insert capacity-scheduler.
 for f in $HADOOP_HOME/contrib/capacity-scheduler/*.jar; do
