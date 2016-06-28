@@ -24,3 +24,9 @@ export PATH=$PATH:$FLUME_HOME/bin
 
 export SQOOP_HOME=/opt/modules/sqoop-1.4.5-cdh5.3.6
 export PATH=$PATH:$SQOOP_HOME/bin
+
+export ZOOKEEPER_HOME=/data/installed/zookeeper-3.4.8
+export PATH=$PATH:$ZOOKEEPER_HOME/bin
+
+export KAFKA_HOME=/data/installed/kafka
+export PATH=$PATH:$KAFKA_HOME/bin
