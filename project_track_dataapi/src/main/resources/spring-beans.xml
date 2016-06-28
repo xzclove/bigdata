@@ -8,7 +8,7 @@
   >
 
     <!-- 对所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
-    <context:component-scan base-package="com.beifeng" />
+    <context:component-scan base-package="com.xzclove" />
 
     <!-- 添加property配置信息 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -20,8 +20,7 @@
     </bean>
 
     <!-- mybatis配置信息 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-        destroy-method="close">
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"  destroy-method="close">
         <property name="driverClass" value="${jdbc.driverClassName}"></property>
         <property name="jdbcUrl" value="${jdbc.url}"></property>
         <property name="user" value="${jdbc.username}"></property>
@@ -38,7 +37,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="mapperLocations">
-            <value>classpath*:com/beifeng/**/*Mapper.xml</value>
+            <value>classpath*:com/xzclove/**/*Mapper.xml</value>
         </property>
     </bean>
 </beans>
